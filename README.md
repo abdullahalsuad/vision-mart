@@ -1,4 +1,4 @@
-# Vision Mart (Developer Guide)
+# Vision Mart
 
 ## Tech Stack
 
@@ -70,13 +70,6 @@ public/                       # Static assets
 ```
 
 ## API Health Check
-
-Test the API health endpoint:
-
-```
-GET /api/health
-Response: { "status": "vision Mart Server is healthy and fully operational" }
-```
 
 **Endpoint:** `/api/health`
 

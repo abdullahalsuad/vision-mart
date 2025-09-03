@@ -1,4 +1,4 @@
-# Vision Mart (Developer Guide)
+# Vision Mart ( Developer Guide )
 
 ## Tech Stack
 
@@ -8,89 +8,6 @@
 ![Mongoose](https://img.shields.io/badge/Mongoose-880000?logo=mongoose&logoColor=white&style=for-the-badge)
 ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white&style=for-the-badge)
 ![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white&style=for-the-badge)
-
-<br />
-
-## Before You Start Working
-
-Always pull the latest changes from the `main` branch before creating a new branch or starting work:
-
-```bash
-git checkout main
-git pull origin main
-```
-
-This ensures your branch is up-to-date and helps avoid merge conflicts.
-
----
-
-## Branching Strategy
-
-Never work directly on the `main` branch. Always create a dedicated branch for new features, bug fixes, or documentation updates.
-
-### Create a New Branch
-
-```bash
-git checkout -b front/your-name     # for frontend
-git checkout -b back/your-name      # for backed
-```
-
-### Switch Branch
-
-```bash
-git checkout main                 # switch to main
-git checkout front/your-name      # switch to your branch
-```
-
-### Delete Branch
-
-```bash
-git branch -d front/your-name               # delete local branch
-git push origin --delete front/your-name    # delete remote branch
-```
-
-### Sync with Main
-
-```bash
-git checkout main
-git pull origin main
-```
-
-### Push Branch
-
-```bash
-git add .
-git commit -m "feat(auth): implement login functionality"
-git push origin feat/your-name
-```
-
-<br />
-
-# Commit Message Guidelines
-
-Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard:
-
-```
-<type>(scope): short description
-```
-
-**Types:**
-
-- `feat`: A new feature
-- `fix`: A bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, missing semicolons, etc.)
-- `refactor`: Code refactoring (no functional change)
-- `test`: Adding or updating tests
-- `chore`: Non-code updates (build tasks, dependencies, etc.)
-
-**Examples:**
-
-```bash
-git commit -m "feat(navbar): add GitHub link to top-right corner"
-git commit -m "fix(button): correct hover state color"
-git commit -m "docs: update README with new instructions"
-```
 
 <br />
 
@@ -156,13 +73,6 @@ public/                       # Static assets
 
 ## API Health Check
 
-Test the API health endpoint:
-
-```
-GET /api/health
-Response: { "status": "vision Mart Server is healthy and fully operational" }
-```
-
 **Endpoint:** `/api/health`
 
 **Response:**
@@ -173,10 +83,94 @@ Response: { "status": "vision Mart Server is healthy and fully operational" }
 }
 ```
 
-## Learn More
+<br />
 
+## Before You Start Working
+
+Always pull the latest changes from the `main` branch before creating a new branch or starting work:
+
+```bash
+git checkout main
+git pull origin main
+```
+
+This ensures `your branch is up-to-date` and helps avoid merge conflicts.
+
+---
+
+## Branching Strategy
+
+Never work directly on the `main` branch. Always create a dedicated branch for new features, bug fixes, or documentation updates.
+
+### Create a New Branch
+
+```bash
+git checkout -b front/your-name     # for frontend
+git checkout -b back/your-name      # for backed
+```
+
+### Switch Branch
+
+```bash
+git checkout main                 # switch to main
+git checkout front/your-name      # switch to your branch
+```
+
+### Delete Branch
+
+```bash
+git branch -d front/your-name               # delete local branch
+git push origin --delete front/your-name    # delete remote branch
+```
+
+### Sync with Main
+
+```bash
+git checkout main
+git pull origin main
+```
+
+### Push Branch
+
+```bash
+git add .
+git commit -m "feat(auth): implement login functionality"
+git push origin feat/your-name
+```
+
+<br />
+
+# Commit Message Guidelines
+
+```
+<type>(scope): short description
+```
+
+**Types:**
+
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, missing semicolons, etc.)
+- `refactor`: Code refactoring (no functional change)
+- `test`: Adding or updating tests
+- `chore`: Non-code updates (build tasks, dependencies, etc.)
+
+**Examples:**
+
+```bash
+git commit -m "feat(navbar): add GitHub link to top-right corner"
+git commit -m "fix(button): correct hover state color"
+git commit -m "docs: update README with new instructions"
+```
+
+<br />
+
+## Official Tech Documentation
+
+- [Pnpm Documentation](https://pnpm.io/)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [MongoDB Documentation](https://www.mongodb.com/docs/)
 - [Mongoose Documentation](https://mongoosejs.com/docs/)
-- [Next Auth](https://next-auth.js.org/getting-started/example)
-- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [Next Auth Documentation](https://next-auth.js.org/getting-started/example)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
