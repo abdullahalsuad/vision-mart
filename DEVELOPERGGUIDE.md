@@ -1,6 +1,6 @@
 # Vision Mart ( Developer Guide )
 
-## Tech Stack
+## Tech Stacks
 
 ![Next.js](https://img.shields.io/badge/Next.js-000?logo=nextdotjs&logoColor=white&style=for-the-badge)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white&style=for-the-badge)
