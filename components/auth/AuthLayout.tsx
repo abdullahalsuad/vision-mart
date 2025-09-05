@@ -5,7 +5,8 @@ import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
 import Link from "next/link";
 import { FaLongArrowAltLeft } from "react-icons/fa";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type AuthPageType = "login" | "register";
 
@@ -14,6 +15,13 @@ interface AuthLayoutProps {
 }
 
 const AuthLayout = ({ pageType }: AuthLayoutProps) => {
+  const { status } = useSession();
+  const router = useRouter();
+
+  if (status === "authenticated") {
+    router.push("/");
+  }
+
   const isLogin = pageType === "login";
 
   return (

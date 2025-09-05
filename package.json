@@ -23,9 +23,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
-    "sonner": "^2.0.7"
+    "sonner": "^2.0.7",
     "swiper": "^11.2.10"
-
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
