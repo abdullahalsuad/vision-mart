@@ -1,10 +1,19 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
-import { FaUser, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { RxDashboard } from "react-icons/rx";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Logout from "./auth/Logout";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // for auth
+  const { data: session, status } = useSession();
+  console.log(session);
 
   return (
     <header className=" top-0 left-0 w-full z-20">
@@ -25,13 +34,43 @@ const Navbar = () => {
 
         {/* Search + Icons */}
         <div className="flex items-center gap-4">
-          {/* User Icon */}
-          <FaUser className="h-5 w-5 text-gray-700 cursor-pointer  " />
+          {/* login  */}
 
-          {/* Cart Icon */}
-          <div className="relative cursor-pointer hidden sm:block">
-            <FaShoppingCart className="h-5 w-5 text-gray-700" />
+          <div>
+            <Link href="/login">Log In</Link>
           </div>
+
+          {/* profile and logout */}
+          {status === "authenticated" && (
+            // Show profile image and logout when logged in
+            <div className="flex items-center space-x-3">
+              <h1>{session.user.name}</h1>
+              <Image
+                src={session.user?.image || "https://via.placeholder.com/32"}
+                alt="Profile"
+                width={600}
+                height={600}
+                className="w-8 h-8 rounded-full border border-teal-400 cursor-pointer"
+              />
+
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="text-black/80 b  hover:text-red-500 cursor-pointer"
+              >
+                <Logout />
+              </button>
+
+              {/* Dashboard  Icon */}
+              {session.user.role == "admin" && (
+                <Link
+                  href="/add"
+                  className="relative cursor-pointer hidden sm:block"
+                >
+                  <RxDashboard className="h-5 w-5 text-gray-700" />
+                </Link>
+              )}
+            </div>
+          )}
 
           {/* Mobile Menu Toggle */}
           <button
