@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "img": "https://i.ibb.co/DPX2VD7W/image.png",
+    "title": "Wireless Headphones",
+    "description": "High-quality over-ear wireless headphones with noise cancellation.",
+    "price": 120,
+    "category": "Electronics"
+  },
+  {
+    "id": 2,
+    "img": "https://i.ibb.co/5hSzNpv4/image.png",
+    "title": "Bluetooth Speaker",
+    "description": "Portable Bluetooth speaker with deep bass and long battery life.",
+    "price": 90,
+    "category": "Electronics"
+  },
+  {
+    "id": 3,
+    "img": "https://i.ibb.co/27hydhgg/image.png",
+    "title": "Smart Watch",
+    "description": "Water-resistant smartwatch with fitness tracking and notifications.",
+    "price": 150,
+    "category": "Accessories"
+  },
+  {
+    "id": 4,
+    "img": "https://i.ibb.co/TxBrC033/image.png",
+    "title": "Gaming Mouse",
+    "description": "Ergonomic gaming mouse with customizable DPI and RGB lighting.",
+    "price": 60,
+    "category": "Accessories"
+  },
+  {
+    "id": 5,
+    "img": "https://i.ibb.co/KpJsLk7N/image.png",
+    "title": "Mechanical Keyboard",
+    "description": "RGB mechanical keyboard with blue switches for fast typing.",
+    "price": 110,
+    "category": "Accessories"
+  },
+  {
+    "id": 6,
+    "img": "https://i.ibb.co/GfLWNFkX/image.png",
+    "title": "Smartphone",
+    "description": "Latest 5G smartphone with AMOLED display and 128GB storage.",
+    "price": 699,
+    "category": "Electronics"
+  },
+  {
+    "id": 7,
+    "img": "https://i.ibb.co/Kp9wNSbD/image.png",
+    "title": "Wireless Earbuds",
+    "description": "Compact true wireless earbuds with noise cancellation and fast charging.",
+    "price": 80,
+    "category": "Accessories"
+  },
+  {
+    "id": 8,
+    "img": "https://i.ibb.co/4w2VBLGq/image.png",
+    "title": "Power Bank 20000mAh",
+    "description": "High-capacity power bank with fast charging and dual USB output.",
+    "price": 55,
+    "category": "Electronics"
+  }
+]
