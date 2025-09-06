@@ -11,13 +11,13 @@ const Logout = () => {
   };
 
   return (
-    <button
+    <span
       onClick={handleLogout}
       className="px-4 py-2 bg-red-300 text-indigo-950 font-semibold rounded-md hover:bg-red-400 transition cursor-pointer flex items-center gap-2"
     >
       <CiLogout />
       Sign Out
-    </button>
+    </span>
   );
 };
 

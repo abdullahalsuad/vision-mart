@@ -4,8 +4,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
-import TopBar from "@/components/TopBar";
+import Sidebar from "@/components/dashboard/Sidebar";
+import TopBar from "@/components/dashboard/TopBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

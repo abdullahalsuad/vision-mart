@@ -29,7 +29,7 @@ const reasons = [
 
 const WhyChooseUs: React.FC = () => {
   return (
-    <div className=" py-8 ">
+    <div className="py-8 my-20">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <h2 className="text-5xl p-4 text-center">Why Choose Us</h2>
         <p className="text-gray-600 mb-12">

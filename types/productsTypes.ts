@@ -1,7 +1,7 @@
-interface Product {
+export interface ProductType {
   id: number;
-  img: string;
-  title: string;
+  productImg: string;
+  productTitle: string;
   description: string;
   price: number;
   category: string;

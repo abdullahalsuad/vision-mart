@@ -3,15 +3,15 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className=" ">
-      <div className=" px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+    <footer className="bg-white border-t border-gray-200">
+      <div className="w-10/12 mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Brand Info */}
         <div>
           <Link href="/" className="text-2xl font-bold">
             <span className="text-[#009688]">Vision</span>
             <span className="text-gray-700">Mart</span>
           </Link>
-          <p className="mt-3 text-gray-600 text-sm">
+          <p className="mt-3 text-gray-600 text-sm leading-relaxed">
             Your trusted partner for premium electronics and lifestyle products.
           </p>
         </div>
@@ -44,22 +44,22 @@ const Footer = () => {
           </h3>
           <ul className="space-y-2 text-gray-600 text-sm">
             <li>
-              <Link href="">Electronics</Link>
+              <Link href="/">Electronics</Link>
             </li>
             <li>
-              <Link href="">Fashion</Link>
+              <Link href="/">Fashion</Link>
             </li>
             <li>
-              <Link href="">Pet Supplies</Link>
+              <Link href="/">Pet Supplies</Link>
             </li>
             <li>
-              <Link href="">Beauty</Link>
+              <Link href="/">Beauty</Link>
             </li>
             <li>
-              <Link href="">Sports</Link>
+              <Link href="/">Sports</Link>
             </li>
             <li>
-              <Link href="">Groceries </Link>
+              <Link href="/">Groceries</Link>
             </li>
           </ul>
         </div>
@@ -85,7 +85,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className=" text-center py-4 text-gray-500 text-sm">
+      <div className="border-t border-gray-200 text-center py-4 text-gray-500 text-sm">
         © 2024 VisionMart. All rights reserved.
       </div>
     </footer>
