@@ -11,8 +11,16 @@ export interface IOrder extends Document {
 
 const orderSchema = new Schema<IOrder>(
   {
-    userID: { type: String, required: true, trim: true },
-    productID: { type: String, required: true, trim: true },
+    userID: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    productID: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     number: {
       type: String,
       required: true,
@@ -23,10 +31,14 @@ const orderSchema = new Schema<IOrder>(
       enum: ["Pending", "Shipped", "Delivered", "Cancelled"],
       default: "Pending",
     },
-    date: { type: Date, default: Date.now },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );
 
 export const orderModel: Model<IOrder> =
-  mongoose.models.orderLists ?? mongoose.model<IOrder>("orderLists", orderSchema);
+  mongoose.models.orderLists ??
+  mongoose.model<IOrder>("orderLists", orderSchema);

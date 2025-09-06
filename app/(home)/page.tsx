@@ -1,6 +1,6 @@
-import Hero from "@/components/Hero";
+import Hero from "@/components/home/Hero";
 import ProductList from "./products/page";
-import WhyChooseUs from "@/components/WhyChooseUs";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Link from "next/link";
 
 const Home = () => {

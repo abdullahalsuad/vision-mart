@@ -1,17 +1,18 @@
 "use client";
+import { ProductType } from "@/types/productsTypes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
   return (
     <div className=" rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition bg-white">
       <div className="relative">
         <Image
           height={600}
           width={600}
-          src={product?.img}
-          alt={product?.title}
+          src={product?.productImg}
+          alt={product?.productTitle}
           className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110"
         />
         <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-md">
@@ -20,7 +21,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       </div>
       <div className="p-4">
         <p className="text-xs uppercase text-gray-500">{product?.category}</p>
-        <h3 className="text-lg font-semibold mb-1">{product?.title}</h3>
+        <h3 className="text-lg font-semibold mb-1">{product?.productTitle}</h3>
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold text-teal-600">
             ${product?.price}{" "}

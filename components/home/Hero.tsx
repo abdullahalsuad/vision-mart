@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
-import bgImage1 from "@/public/images/hero_bg_1.jpeg";
-import bgImage2 from "@/public/images/hero_bg_2.jpeg";
-import bgImage3 from "@/public/images/hero_bg_3.jpeg";
+
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -13,22 +12,22 @@ const Hero = () => {
     {
       title: "Discover Amazing Products",
       desc: "Premium quality electronics and accessories at unbeatable prices. Transform your lifestyle with VisionMart.",
-      img: bgImage1,
+      img: "https://images.pexels.com/photos/159643/laptop-ipad-organic-natural-159643.jpeg",
     },
     {
       title: "Latest Tech Arrivals",
       desc: "Stay ahead with cutting-edge gadgets and exclusive deals only at VisionMart.",
-      img: bgImage2,
+      img: "https://images.pexels.com/photos/1712/sunglasses-apple-iphone-desk.jpg",
     },
     {
       title: "Shop Smart, Live Better",
       desc: "Enjoy the best offers on electronics, fashion, and accessories with us.",
-      img: bgImage3,
+      img: "https://images.pexels.com/photos/5827833/pexels-photo-5827833.jpeg",
     },
   ];
 
   return (
-    <section className="relative py-6 pt-2 bg-transparent text-center text-white">
+    <section className=" py-10 pt-2 bg-transparent text-center text-white mt-20 ">
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 3000, disableOnInteraction: false }}

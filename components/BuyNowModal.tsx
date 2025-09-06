@@ -17,18 +17,28 @@ const BuyNowModal: React.FC<BuyNowModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-    onClose();
-    // when api make its on
-    // try {
-    //   const res = await axios.post("/api/orders", data);
+    // const formData = new FormData(e.currentTarget);
+    // const data = Object.fromEntries(formData.entries());
+    // console.log(data);
 
-    //   console.log("Order Success:", res.data);
-    // //   alert("Order placed successfully!");
+    // try {
+    //   const res = await fetch("/api/orders", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
+
+    //   if (!res.ok) {
+    //     throw new Error("Failed to place order");
+    //   }
+
+    //   const result = await res.json();
+    //   console.log("Order Success:", result);
+    //   alert("Order placed successfully!");
     //   onClose();
-    // } catch (error) {
+    // } catch (error: unknown) {
     //   console.error("Order Error:", error);
     //   alert("Something went wrong!");
     // }
