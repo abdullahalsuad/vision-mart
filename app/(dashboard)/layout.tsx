@@ -39,24 +39,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-800`}
       >
         <div className="flex min-h-screen">
-          <Sidebar 
-            isOpen={sidebarOpen} 
-            onClose={handleSidebarClose} 
-          />
-          
+          <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
+
           {/* Main content area with topbar */}
           <div className="flex-1 flex flex-col">
             <Topbar onToggle={handleSidebarToggle} />
-            
+
             <main className="flex-1 overflow-auto bg-white">
               {/* Content area */}
-              <div className="p-4 lg:p-8">
-                {children}
-              </div>
-              
-              <div className="border-t border-teal-600">
+              <div className="p-4 lg:p-8">{children}</div>
+
+              {/* <div className="border-t border-teal-600">
                 <Footer />
-              </div>
+              </div> */}
             </main>
           </div>
         </div>

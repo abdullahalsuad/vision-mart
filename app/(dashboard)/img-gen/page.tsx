@@ -1,7 +1,11 @@
-import React from "react";
+import ImgGenLayout from "@/components/img-gen/ImgGenLayout";
 
 const ImgGenPage = () => {
-  return <div>ImgGenPage</div>;
+  return (
+    <>
+      <ImgGenLayout />
+    </>
+  );
 };
 
 export default ImgGenPage;
