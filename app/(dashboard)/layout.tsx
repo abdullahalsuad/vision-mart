@@ -4,9 +4,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { useState } from "react";
-import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
-import Topbar from "@/components/Topbar";
+import TopBar from "@/components/TopBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,15 +42,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Main content area with topbar */}
           <div className="flex-1 flex flex-col">
-            <Topbar onToggle={handleSidebarToggle} />
+            <TopBar onToggle={handleSidebarToggle} />
 
             <main className="flex-1 overflow-auto bg-white">
               {/* Content area */}
               <div className="p-4 lg:p-8">{children}</div>
-
-              {/* <div className="border-t border-teal-600">
-                <Footer />
-              </div> */}
             </main>
           </div>
         </div>

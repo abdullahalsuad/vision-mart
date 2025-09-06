@@ -1,9 +1,16 @@
-// app/allproducts/page.tsx
 "use client";
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FiEdit, FiTrash2, FiEye, FiPlus, FiSearch, FiX, FiFilter } from "react-icons/fi";
+import {
+  FiEdit,
+  FiTrash2,
+  FiEye,
+  FiPlus,
+  FiSearch,
+  FiX,
+  FiFilter,
+} from "react-icons/fi";
 import Image from "next/image";
 
 interface Product {
@@ -52,17 +59,23 @@ export default function AllProducts() {
   }, []);
 
   // Get unique categories for filter
-  const categories = ["All", ...new Set(products.map(product => product.category))];
+  const categories = [
+    "All",
+    ...new Set(products.map((product) => product.category)),
+  ];
 
   // Filter products based on search term and category
   const filteredProducts = products.filter((product) => {
-    const matchesSearch = 
+    const matchesSearch =
       product.productTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.category.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCategory = selectedCategory === "" || selectedCategory === "All" || product.category === selectedCategory;
-    
+
+    const matchesCategory =
+      selectedCategory === "" ||
+      selectedCategory === "All" ||
+      product.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
 
@@ -186,7 +199,9 @@ export default function AllProducts() {
             <span className="text-sm text-blue-700">
               {filteredProducts.length} product(s) found
               {searchTerm && ` for "${searchTerm}"`}
-              {selectedCategory && selectedCategory !== "All" && ` in ${selectedCategory}`}
+              {selectedCategory &&
+                selectedCategory !== "All" &&
+                ` in ${selectedCategory}`}
             </span>
           </div>
           <button
@@ -229,7 +244,8 @@ export default function AllProducts() {
                   className="object-cover"
                   onError={(e) => {
                     // Fallback to placeholder if image fails to load
-                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23f3f4f6'%3E%3Crect width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='12' fill='%239ca3af'%3ENo Image%3C/text%3E%3C/svg%3E";
+                    e.currentTarget.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23f3f4f6'%3E%3Crect width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='12' fill='%239ca3af'%3ENo Image%3C/text%3E%3C/svg%3E";
                   }}
                 />
               </div>
@@ -276,12 +292,12 @@ export default function AllProducts() {
 
       {/* View Modal */}
       {isViewModalOpen && selectedProduct && (
-        <ViewModal 
-          product={selectedProduct} 
-          onClose={() => { 
-            setIsViewModalOpen(false); 
-            setSelectedProduct(null); 
-          }} 
+        <ViewModal
+          product={selectedProduct}
+          onClose={() => {
+            setIsViewModalOpen(false);
+            setSelectedProduct(null);
+          }}
         />
       )}
 
@@ -289,12 +305,16 @@ export default function AllProducts() {
       {isEditModalOpen && selectedProduct && (
         <EditModal
           product={selectedProduct}
-          onClose={() => { 
-            setIsEditModalOpen(false); 
-            setSelectedProduct(null); 
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedProduct(null);
           }}
           onUpdate={(updatedProduct) => {
-            setProducts(products.map((p) => (p._id === updatedProduct._id ? updatedProduct : p)));
+            setProducts(
+              products.map((p) =>
+                p._id === updatedProduct._id ? updatedProduct : p
+              )
+            );
           }}
         />
       )}
@@ -303,9 +323,9 @@ export default function AllProducts() {
       {isDeleteModalOpen && selectedProduct && (
         <DeleteModal
           product={selectedProduct}
-          onClose={() => { 
-            setIsDeleteModalOpen(false); 
-            setSelectedProduct(null); 
+          onClose={() => {
+            setIsDeleteModalOpen(false);
+            setSelectedProduct(null);
           }}
           onConfirm={confirmDelete}
         />
@@ -315,14 +335,25 @@ export default function AllProducts() {
 }
 
 /* ----------------- View Modal Component ----------------- */
-function ViewModal({ product, onClose }: { product: Product; onClose: () => void }) {
+function ViewModal({
+  product,
+  onClose,
+}: {
+  product: Product;
+  onClose: () => void;
+}) {
   return (
     <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white/95 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">Product Details</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 cursor-pointer">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Product Details
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
               <FiX size={24} />
             </button>
           </div>
@@ -338,32 +369,48 @@ function ViewModal({ product, onClose }: { product: Product; onClose: () => void
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Product Title</label>
-                <p className="text-gray-900 font-semibold">{product.productTitle}</p>
+                <label className="block text-sm font-medium text-gray-700">
+                  Product Title
+                </label>
+                <p className="text-gray-900 font-semibold">
+                  {product.productTitle}
+                </p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Price</label>
-                <p className="text-teal-600 font-bold text-xl">${product.price}</p>
+                <label className="block text-sm font-medium text-gray-700">
+                  Price
+                </label>
+                <p className="text-teal-600 font-bold text-xl">
+                  ${product.price}
+                </p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Category</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Category
+                </label>
                 <span className="inline-block bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full">
                   {product.category}
                 </span>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Description
+                </label>
                 <p className="text-gray-600">{product.description}</p>
               </div>
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Created</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Created
+                  </label>
                   <p className="text-gray-600 text-sm">
                     {new Date(product.createdAt).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Updated</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Updated
+                  </label>
                   <p className="text-gray-600 text-sm">
                     {new Date(product.updatedAt).toLocaleDateString()}
                   </p>
@@ -373,7 +420,10 @@ function ViewModal({ product, onClose }: { product: Product; onClose: () => void
           </div>
 
           <div className="flex justify-end gap-3 mt-6 border-t pt-4">
-            <button onClick={onClose} className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer"
+            >
               Close
             </button>
           </div>
@@ -403,7 +453,14 @@ function EditModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const categories = ["Electronics", "Fashion", "Pet Supplies", "Beauty", "Sports", "Groceries"];
+  const categories = [
+    "Electronics",
+    "Fashion",
+    "Pet Supplies",
+    "Beauty",
+    "Sports",
+    "Groceries",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -414,7 +471,10 @@ function EditModal({
       const response = await fetch(`/api/products/${product._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, price: parseFloat(formData.price) }),
+        body: JSON.stringify({
+          ...formData,
+          price: parseFloat(formData.price),
+        }),
       });
 
       if (response.ok) {
@@ -431,7 +491,11 @@ function EditModal({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -441,8 +505,13 @@ function EditModal({
       <div className="bg-white/95 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">Edit Product</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 cursor-pointer">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Edit Product
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
               <FiX size={24} />
             </button>
           </div>
@@ -455,7 +524,9 @@ function EditModal({
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Product Title *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Product Title *
+              </label>
               <input
                 type="text"
                 name="productTitle"
@@ -467,7 +538,9 @@ function EditModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description *
+              </label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -479,7 +552,9 @@ function EditModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price ($) *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Price ($) *
+              </label>
               <input
                 type="number"
                 name="price"
@@ -493,7 +568,9 @@ function EditModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Image URL *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Image URL *
+              </label>
               <input
                 type="text"
                 name="productImg"
@@ -505,7 +582,9 @@ function EditModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Category *
+              </label>
               <select
                 name="category"
                 value={formData.category}
@@ -523,16 +602,16 @@ function EditModal({
             </div>
 
             <div className="flex justify-end gap-3 pt-4 border-t">
-              <button 
-                type="button" 
-                onClick={onClose} 
+              <button
+                type="button"
+                onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer"
               >
                 Cancel
               </button>
-              <button 
-                type="submit" 
-                disabled={loading} 
+              <button
+                type="submit"
+                disabled={loading}
                 className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {loading ? "Updating..." : "Update Product"}
@@ -568,25 +647,32 @@ function DeleteModal({
       <div className="bg-white/95 rounded-lg max-w-md w-full shadow-2xl">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">Confirm Delete</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 cursor-pointer">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Confirm Delete
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
               <FiX size={24} />
             </button>
           </div>
           <p className="text-gray-600 mb-4">
-            Are you sure you want to delete <strong>{product.productTitle}</strong>? This action cannot be undone.
+            Are you sure you want to delete{" "}
+            <strong>{product.productTitle}</strong>? This action cannot be
+            undone.
           </p>
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <button 
-              onClick={onClose} 
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer" 
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer"
               disabled={loading}
             >
               Cancel
             </button>
-            <button 
-              onClick={handleConfirm} 
-              disabled={loading} 
+            <button
+              onClick={handleConfirm}
+              disabled={loading}
               className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {loading ? "Deleting..." : "Delete Product"}
