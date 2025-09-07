@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import mongoClientPromise from "./service/mongoClientPromise";
+import { dbConnect } from "@/service/mongo";
 import bcrypt from "bcryptjs";
 import { userModel } from "./models/user-model";
 
@@ -29,6 +30,8 @@ export const {
 
       async authorize(credentials, request) {
         if (!credentials) return null;
+
+        await dbConnect();
 
         const email =
           typeof credentials.email === "string" ? credentials.email : "";
