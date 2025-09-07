@@ -36,13 +36,13 @@ const OrderPage = () => {
       setLoading(true);
       setError("");
       const response = await fetch("/api/orders");
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch orders: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      
+
       if (Array.isArray(data)) {
         setOrders(data);
       } else {
@@ -59,7 +59,10 @@ const OrderPage = () => {
     }
   };
 
-  const updateOrderStatus = async (orderId: string, newStatus: Order["status"]) => {
+  const updateOrderStatus = async (
+    orderId: string,
+    newStatus: Order["status"]
+  ) => {
     try {
       setUpdatingOrderId(orderId);
       const response = await fetch(`/api/orders/${orderId}`, {
@@ -70,8 +73,10 @@ const OrderPage = () => {
 
       if (!response.ok) throw new Error("Failed to update order status");
 
-      setOrders(prev =>
-        prev.map(order => order._id === orderId ? { ...order, status: newStatus } : order)
+      setOrders((prev) =>
+        prev.map((order) =>
+          order._id === orderId ? { ...order, status: newStatus } : order
+        )
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update order");
@@ -82,11 +87,16 @@ const OrderPage = () => {
 
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
-      case "Pending": return "bg-yellow-100 text-yellow-800";
-      case "Shipped": return "bg-blue-100 text-blue-800";
-      case "Delivered": return "bg-green-100 text-green-800";
-      case "Cancelled": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "Pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "Shipped":
+        return "bg-blue-100 text-blue-800";
+      case "Delivered":
+        return "bg-green-100 text-green-800";
+      case "Cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -94,8 +104,11 @@ const OrderPage = () => {
     if (!dateString) return "N/A";
     try {
       return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric", month: "short", day: "numeric",
-        hour: "2-digit", minute: "2-digit",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
     } catch {
       return "Invalid date";
@@ -147,34 +160,55 @@ const OrderPage = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           {/* Horizontal scroll container - only the table scrolls */}
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-            <table className="w-full" style={{ minWidth: '900px' }}>
+            <table className="w-full" style={{ minWidth: "900px" }}>
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '100px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "100px" }}
+                  >
                     Order Info
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '150px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "150px" }}
+                  >
                     Customer
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '150px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "150px" }}
+                  >
                     Product
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '80px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "80px" }}
+                  >
                     Price
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '100px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "100px" }}
+                  >
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '120px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "120px" }}
+                  >
                     Date
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ minWidth: '140px' }}>
+                  <th
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: "140px" }}
+                  >
                     Update Status
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map(order => (
+                {orders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
@@ -203,7 +237,11 @@ const OrderPage = () => {
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.status)}`}>
+                      <span
+                        className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                          order.status
+                        )}`}
+                      >
                         {order.status}
                       </span>
                     </td>
@@ -213,7 +251,12 @@ const OrderPage = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       <select
                         value={order.status}
-                        onChange={(e) => updateOrderStatus(order._id, e.target.value as Order["status"])}
+                        onChange={(e) =>
+                          updateOrderStatus(
+                            order._id,
+                            e.target.value as Order["status"]
+                          )
+                        }
                         disabled={updatingOrderId === order._id}
                         className="block w-full py-2 px-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                       >
@@ -223,7 +266,9 @@ const OrderPage = () => {
                         <option value="Cancelled">Cancelled</option>
                       </select>
                       {updatingOrderId === order._id && (
-                        <div className="mt-1 text-xs text-gray-500 text-center">Updating...</div>
+                        <div className="mt-1 text-xs text-gray-500 text-center">
+                          Updating...
+                        </div>
                       )}
                     </td>
                   </tr>
@@ -231,7 +276,7 @@ const OrderPage = () => {
               </tbody>
             </table>
           </div>
-          
+
           {/* Mobile scroll hint */}
           <div className="block sm:hidden px-4 py-2 text-xs text-gray-500 text-center bg-gray-50 border-t">
             ← Swipe left to see more columns →

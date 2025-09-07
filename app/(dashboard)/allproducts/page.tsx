@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 
+
 interface Product {
   _id: string;
   productTitle: string;
@@ -34,6 +35,7 @@ export default function AllProducts() {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
 
   // Fetch all products
   const fetchProducts = async () => {

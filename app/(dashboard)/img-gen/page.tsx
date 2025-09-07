@@ -1,6 +1,6 @@
 import ImgGenLayout from "@/components/img-gen/ImgGenLayout";
 
-const ImgGenPage = () => {
+const ImgGenPage = async () => {
   return (
     <>
       <ImgGenLayout />
