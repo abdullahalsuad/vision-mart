@@ -7,7 +7,6 @@ export async function GET() {
     await dbConnect();
 
     const orders = await orderModel.aggregate([
-      
       {
         $addFields: {
           userObjectId: { $toObjectId: "$userID" },

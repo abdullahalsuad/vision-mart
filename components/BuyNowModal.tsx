@@ -29,6 +29,8 @@ const BuyNowModal: React.FC<BuyNowModalProps> = ({
   price,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log(productID, userID);
   
   if (!isOpen) return null;
 

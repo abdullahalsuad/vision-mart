@@ -8,7 +8,6 @@ import { ProductType } from "@/types/productsTypes";
 import { useSession } from "next-auth/react";
 import { 
   FaShoppingCart, 
-  FaHeart, 
   FaShareAlt, 
   FaArrowLeft,
   FaCheckCircle
@@ -29,7 +28,6 @@ const ProductDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
