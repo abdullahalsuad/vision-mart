@@ -43,8 +43,11 @@ export const {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) throw new Error("Email or password mismatch");
 
-        const { password: _pass, ...userWithoutPassword } = user;
-        return userWithoutPassword;
+        const { password: _pass, _id, ...userWithoutPassword } = user;
+        return {
+          ...userWithoutPassword,
+          id: _id.toString(),
+        };
       },
     }),
 
@@ -60,12 +63,14 @@ export const {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role ?? "user"; // default role
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.role = token.role as string;
+        session.user.id = token.id as string;
       }
       return session;
     },
