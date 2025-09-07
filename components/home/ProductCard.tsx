@@ -5,7 +5,6 @@ import Link from "next/link";
 import React from "react";
 
 const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
-  console.log(product);
   return (
     <div className=" rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition bg-white">
       <div className="relative">
@@ -22,7 +21,7 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
       </div>
       <div className="p-4">
         <p className="text-xs uppercase text-gray-500">{product?.category}</p>
-        <h3 className="text-lg font-semibold mb-1">{product?.productTitle}</h3>
+        <h3 className="text-lg font-semibold mb-6 truncate">{product?.productTitle}</h3>
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold text-teal-600">
             ${product?.price}{" "}
