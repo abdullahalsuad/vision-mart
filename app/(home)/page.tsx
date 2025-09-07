@@ -1,8 +1,7 @@
 import Hero from "@/components/home/Hero";
-import ProductList from "./products/page";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import Link from "next/link";
 import LatestProducts from "@/components/home/LatestProducts";
+import ReviewSlider from "@/components/home/ReviewSlider";
 
 const Home = () => {
   return (
@@ -15,6 +14,9 @@ const Home = () => {
       </section>
       <section>
         <WhyChooseUs />
+      </section>
+      <section>
+        <ReviewSlider />
       </section>
     </>
   );

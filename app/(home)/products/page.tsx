@@ -55,7 +55,6 @@ const ProductList: React.FC = () => {
       (product) => product.category === sortOrder
     );
   }
-  console.log(products);
   return (
     <div className="rounded-2xl py-8 mt-20">
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full mb-6">

@@ -13,7 +13,7 @@ import {
   FaCheckCircle
 } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
-import { AiOutlineRollback, AiOutlineShopping } from "react-icons/ai";
+import { AiOutlineRollback } from "react-icons/ai";
 import { BiShield } from "react-icons/bi";
 import { BsStarFill, BsArrowLeft } from "react-icons/bs";
 import { toast, Toaster } from "sonner";
@@ -68,7 +68,7 @@ const ProductDetails: React.FC = () => {
           url: window.location.href,
         });
       } catch (error) {
-        console.log('Sharing cancelled');
+        console.log('Sharing cancelled', error);
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
@@ -255,9 +255,7 @@ const ProductDetails: React.FC = () => {
                 <FaShoppingCart /> Buy Now
               </button>
               
-              <button className="flex-1 border border-teal-600 text-teal-600 hover:bg-teal-50 flex items-center justify-center gap-3 font-semibold py-3 px-6 rounded-lg transition-colors cursor-pointer">
-                <AiOutlineShopping /> Add to Cart
-              </button>
+          
             </div>
             
             {/* Secondary Actions */}
