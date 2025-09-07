@@ -16,8 +16,9 @@ async function validateIdAndConnect(id: string) {
 }
 
 // GET single product
-export async function GET(req: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+
 
   const errorResponse = await validateIdAndConnect(id);
   if (errorResponse) return errorResponse;
@@ -45,8 +46,8 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 }
 
 // PATCH update product
-export async function PATCH(req: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
   const errorResponse = await validateIdAndConnect(id);
   if (errorResponse) return errorResponse;
@@ -88,8 +89,8 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
 }
 
 // DELETE product
-export async function DELETE(req: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
   const errorResponse = await validateIdAndConnect(id);
   if (errorResponse) return errorResponse;
