@@ -4,6 +4,7 @@ import DashboardWrapper from "@/components/dashboard/DashboardWraper";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { dbConnect } from "@/service/mongo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,8 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const session = await auth();
+
+    await dbConnect();
 
   if (session?.user?.role !== "admin") {
     redirect("/");
