@@ -4,6 +4,7 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "next-auth/react";
+import { dbConnect } from "@/service/mongo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,11 +22,12 @@ export const metadata: Metadata = {
     "This project is an E-commerce Web Application with AI image generation integration. It enables users to browse, search, and buy products, while admins can manage products, orders, and generate AI-based product images.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await dbConnect();
   return (
     <html lang="en">
       <body
