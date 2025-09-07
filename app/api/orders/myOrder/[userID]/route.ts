@@ -1,37 +1,23 @@
+import { NextRequest } from "next/server";
 import { orderModel } from "@/models/orders-model";
 import { dbConnect } from "@/service/mongo";
 
-// Get orders for a specific user by userID
 export async function GET(
-  request: Request,
-  { params }: { params: { userID: string } }
+  request: NextRequest,
+  context: { params: Promise<{ userID: string }> }
 ) {
   try {
     await dbConnect();
 
-    const { userID } = params;
+    const { userID } = await context.params;
 
-    // Validate userID
     if (!userID || userID.trim() === "") {
-      return Response.json(
-        { error: "User ID is required" },
-        { status: 400 }
-      );
+      return Response.json({ error: "User ID is required" }, { status: 400 });
     }
 
-    // Get orders for this specific user only
     const orders = await orderModel.aggregate([
-      // First, filter orders by the requested userID
-      { $match: { userID: userID } },
-      
-      // Convert productID string to ObjectId for lookup
-      {
-        $addFields: {
-          productObjectId: { $toObjectId: "$productID" }
-        }
-      },
-      
-      // Lookup product details
+      { $match: { userID } },
+      { $addFields: { productObjectId: { $toObjectId: "$productID" } } },
       {
         $lookup: {
           from: "products",
@@ -41,8 +27,6 @@ export async function GET(
         },
       },
       { $unwind: "$product" },
-      
-      // Project only the fields you want to return
       {
         $project: {
           _id: 1,
@@ -61,14 +45,9 @@ export async function GET(
       },
     ]);
 
-    // Return the orders for this user
     return Response.json(orders);
-    
   } catch (error) {
     console.error("Error fetching user orders:", error);
-    return Response.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

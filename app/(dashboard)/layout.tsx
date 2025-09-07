@@ -1,11 +1,9 @@
-// app/dashboard/layout.tsx
-"use client";
-
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { useState } from "react";
-import Sidebar from "@/components/dashboard/Sidebar";
-import TopBar from "@/components/dashboard/TopBar";
+import DashboardWrapper from "@/components/dashboard/DashboardWraper";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,35 +19,24 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
+  const session = await auth();
 
-  const handleSidebarToggle = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const handleSidebarClose = () => {
-    setSidebarOpen(false);
-  };
+  if (session?.user?.role !== "admin") {
+    redirect("/");
+  }
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-800`}
       >
-        <div className="flex min-h-screen">
-          <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
-
-          {/* Main content area with topbar */}
-          <div className="flex-1 flex flex-col">
-            <TopBar onToggle={handleSidebarToggle} />
-
-            <main className="flex-1 overflow-auto bg-white">
-              {/* Content area */}
-              <div className="p-4 lg:p-8">{children}</div>
-            </main>
-          </div>
-        </div>
+        {/* DashboardWrapper is client component for interactivity */}
+        <SessionProvider>
+          <DashboardWrapper>{children}</DashboardWrapper>
+        </SessionProvider>
       </body>
     </html>
   );

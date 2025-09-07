@@ -10,11 +10,13 @@ export default function AddProduct() {
     description: "",
     price: "",
     productImg: "",
-    category: ""
+    category: "",
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | "">("");
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | "">(
+    ""
+  );
   const [submitMessage, setSubmitMessage] = useState("");
 
   const categories = [
@@ -23,14 +25,18 @@ export default function AddProduct() {
     "Pet Supplies",
     "Beauty",
     "Sports",
-    "Groceries"
+    "Groceries",
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -48,7 +54,7 @@ export default function AddProduct() {
         },
         body: JSON.stringify({
           ...formData,
-          price: parseFloat(formData.price)
+          price: parseFloat(formData.price),
         }),
       });
 
@@ -60,7 +66,7 @@ export default function AddProduct() {
           description: "",
           price: "",
           productImg: "",
-          category: ""
+          category: "",
         });
       } else {
         setSubmitStatus("error");
@@ -68,7 +74,7 @@ export default function AddProduct() {
       }
     } catch (error) {
       console.log(error);
-      
+
       setSubmitStatus("error");
       setSubmitMessage("An error occurred. Please try again.");
     } finally {
@@ -81,23 +87,39 @@ export default function AddProduct() {
       {/* Header */}
       <div className="mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Add New Product</h1>
-        <p className="text-gray-600 mt-1">Fill out the form below to add a new product to your inventory.</p>
+        <p className="text-gray-600 mt-1">
+          Fill out the form below to add a new product to your inventory.
+        </p>
       </div>
 
       {/* Status Message */}
       {submitStatus && (
-        <div className={`p-3 mb-4 rounded-lg ${submitStatus === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+        <div
+          className={`p-3 mb-4 rounded-lg ${
+            submitStatus === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
           {submitMessage}
         </div>
       )}
 
       {/* Form - Single column layout */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-gray-200 p-6 flex-1">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg border border-gray-200 p-6 flex-1"
+      >
         {/* Image URL Section */}
         <div className="mb-6 pb-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Image URL</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-3">
+            Image URL
+          </h2>
           <div>
-            <label htmlFor="productImg" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="productImg"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Product Image URL *
             </label>
             <input
@@ -113,12 +135,14 @@ export default function AddProduct() {
             {formData.productImg && (
               <div className="mt-3">
                 <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
-                <Image width={600} height={400}
-                  src={formData.productImg} 
-                  alt="Preview" 
+                <Image
+                  width={600}
+                  height={400}
+                  src={formData.productImg}
+                  alt="Preview"
                   className="h-24 w-24 object-cover rounded-lg border border-gray-200"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.style.display = "none";
                   }}
                 />
               </div>
@@ -130,7 +154,10 @@ export default function AddProduct() {
         <div className="mb-6 pb-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-800 mb-3">Category</h2>
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Product Category *
             </label>
             <select
@@ -142,8 +169,10 @@ export default function AddProduct() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition"
             >
               <option value="">Select a category</option>
-              {categories.map(category => (
-                <option key={category} value={category}>{category}</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
               ))}
             </select>
           </div>
@@ -151,11 +180,16 @@ export default function AddProduct() {
 
         {/* Product Details Section */}
         <div className="mb-6 pb-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Product Details</h2>
-          
+          <h2 className="text-lg font-semibold text-gray-800 mb-3">
+            Product Details
+          </h2>
+
           {/* Product Title */}
           <div className="mb-4">
-            <label htmlFor="productTitle" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="productTitle"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Product Title *
             </label>
             <input
@@ -172,7 +206,10 @@ export default function AddProduct() {
 
           {/* Price */}
           <div className="mb-4">
-            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="price"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Price ($) *
             </label>
             <input
@@ -191,7 +228,10 @@ export default function AddProduct() {
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Description *
             </label>
             <textarea
