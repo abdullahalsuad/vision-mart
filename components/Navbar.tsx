@@ -31,9 +31,13 @@ const Navbar = () => {
           <Link href="/products" className="hover:text-[#009688]">
             Products
           </Link>
-          <Link href="/categories" className="hover:text-[#009688]">
-            Categories
-          </Link>
+          {session ? (
+            <>
+              <Link href="/myorders" className="hover:text-[#009688]">
+                My Orders
+              </Link>
+            </>
+          ) : null}
           <Link href="/about" className="hover:text-[#009688]">
             About
           </Link>
