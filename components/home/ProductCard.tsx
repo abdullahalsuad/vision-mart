@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
+  console.log(product);
   return (
     <div className=" rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition bg-white">
       <div className="relative">
@@ -16,7 +17,7 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
           className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110"
         />
         <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-md">
-          -20%
+          -$100
         </span>
       </div>
       <div className="p-4">
@@ -26,11 +27,11 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
           <p className="text-xl font-bold text-teal-600">
             ${product?.price}{" "}
             <span className="text-gray-400 line-through text-sm">
-              ${product?.price + 50}
+              ${product?.price + 100}
             </span>
           </p>
           <Link
-            href={`products/${product?.id}`}
+            href={`products/${product?._id}`}
             className="bg-[#009688] hover:bg-teal-600 text-white px-4 py-2 rounded-xl text-sm"
           >
             View More

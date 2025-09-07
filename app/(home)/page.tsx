@@ -2,6 +2,7 @@ import Hero from "@/components/home/Hero";
 import ProductList from "./products/page";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Link from "next/link";
+import LatestProducts from "@/components/home/LatestProducts";
 
 const Home = () => {
   return (
@@ -10,13 +11,7 @@ const Home = () => {
         <Hero />
       </section>
       <section>
-        <ProductList />
-        <Link
-          href={"/products"}
-          className="bg-[#009688] block max-w-[200px] text-center mx-auto hover:bg-teal-600  text-white px-6 py-2 rounded-xl text-lg"
-        >
-          View More
-        </Link>
+        <LatestProducts/>
       </section>
       <section>
         <WhyChooseUs />
