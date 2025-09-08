@@ -4,7 +4,10 @@ import { signOut } from "next-auth/react";
 import { CiLogout } from "react-icons/ci";
 import { toast } from "sonner";
 
-const Logout = () => {
+interface dashboardProps {
+  isDashboard: boolean;
+}
+const Logout = ({ isDashboard }: dashboardProps) => {
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/login", redirect: true });
     toast.success("Logout successful ");
@@ -13,9 +16,13 @@ const Logout = () => {
   return (
     <span
       onClick={handleLogout}
-      className="px-4 py-2 bg-red-300 text-indigo-950 font-semibold rounded-md hover:bg-red-400 transition cursor-pointer flex items-center gap-2"
+      className={`font-semibold rounded-md transition cursor-pointer flex items-center gap-2 px-4 py-2 ${
+        isDashboard
+          ? "justify-center bg-white text-red-500 hover:bg-red-100"
+          : " bg-red-300 text-indigo-950 hover:bg-red-400 "
+      }`}
     >
-      <CiLogout />
+      <CiLogout size={20} />
       Sign Out
     </span>
   );

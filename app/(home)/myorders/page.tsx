@@ -39,7 +39,16 @@ export default function MyOrdersPage() {
 
   return (
     <div className="py-20 px-4">
-      <h1 className="text-2xl font-bold mb-6">My Orders</h1>
+      {/* Title & Description */}
+      <div className="text-center mb-8 px-4 max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          My <span className="text-teal-600">Orders</span>
+        </h1>
+        <p className="text-gray-600 text-lg">
+          Here you can view all the products you have ordered. Track their
+          status, see purchase dates, and review your order history.
+        </p>
+      </div>
 
       {loading ? (
         <MyOrderLoading />
