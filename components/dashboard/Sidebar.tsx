@@ -38,17 +38,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Sidebar */}
       <aside
-        className={`
-        fixed lg:static w-64 bg-gradient-to-b from-teal-600 to-teal-700 text-white p-6 shadow-lg z-30 min-h-screen
-        transform transition-transform duration-300 ease-in-out
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-      `}
+        className={`fixed top-0 lg:sticky lg:top-0 w-64 bg-gradient-to-b from-teal-600 to-teal-700 text-white p-6 shadow-lg z-30 h-screen transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" :   "-translate-x-full lg:translate-x-0"}`}
       >
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold mt-2 flex items-center">
+         <Link href= '/' > <h1 className="text-2xl font-bold mt-2 flex items-center">
             <FiHome className="w-5 h-5 mr-2" />
             VisionMart
-          </h1>
+          </h1></Link>
           <button
             className="lg:hidden p-1 rounded hover:bg-teal-500"
             onClick={onClose}
