@@ -7,12 +7,20 @@ import { RxDashboard } from "react-icons/rx";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Logout from "./auth/Logout";
+import { usePathname } from "next/navigation"; 
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Auth session
   const { data: session, status } = useSession();
+  const pathname = usePathname(); 
+
+  // helper function for active link classes
+  const linkClasses = (path: string) =>
+    `hover:text-[#009688] ${
+      pathname === path ? "text-[#009688] font-semibold" : "text-gray-600"
+    }`;
 
   return (
     <header className="fixed top-0 left-0 w-full z-20 bg-white shadow-sm">
@@ -24,21 +32,19 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6 text-gray-600 font-medium">
-          <Link href="/" className="hover:text-[#009688]">
+        <nav className="hidden md:flex gap-6 font-medium">
+          <Link href="/" className={linkClasses("/")}>
             Home
           </Link>
-          <Link href="/products" className="hover:text-[#009688]">
+          <Link href="/products" className={linkClasses("/products")}>
             Products
           </Link>
           {session ? (
-            <>
-              <Link href="/myorders" className="hover:text-[#009688]">
-                My Orders
-              </Link>
-            </>
+            <Link href="/myorders" className={linkClasses("/myorders")}>
+              My Orders
+            </Link>
           ) : null}
-          <Link href="/about" className="hover:text-[#009688]">
+          <Link href="/about" className={linkClasses("/about")}>
             About
           </Link>
         </nav>
@@ -49,7 +55,7 @@ const Navbar = () => {
           {status !== "authenticated" && (
             <Link
               href="/login"
-              className="hidden md:block hover:text-[#009688]"
+              className={linkClasses("/login") + " hidden md:block"}
             >
               Log In
             </Link>
@@ -77,8 +83,8 @@ const Navbar = () => {
 
               {/* Dashboard for admin */}
               {session.user.role === "admin" && (
-                <Link href="/allproducts" className="hover:text-[#009688]">
-                  <RxDashboard className="h-5 w-5" />
+                <Link href="/allproducts" className={linkClasses("/allproducts")}>
+                  <RxDashboard className="h-6 w-6" />
                 </Link>
               )}
             </div>
@@ -100,32 +106,21 @@ const Navbar = () => {
           menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <nav className="flex flex-col items-center gap-5 py-6 text-gray-600 font-medium">
-          <Link
-            href="/"
-            onClick={() => setMenuOpen(false)}
-            className="hover:text-[#009688]"
-          >
+        <nav className="flex flex-col items-center gap-5 py-6 font-medium">
+          <Link href="/" onClick={() => setMenuOpen(false)} className={linkClasses("/")}>
             Home
           </Link>
           <Link
             href="/products"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-[#009688]"
+            className={linkClasses("/products")}
           >
             Products
           </Link>
           <Link
-            href="/categories"
-            onClick={() => setMenuOpen(false)}
-            className="hover:text-[#009688]"
-          >
-            Categories
-          </Link>
-          <Link
             href="/about"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-[#009688]"
+            className={linkClasses("/about")}
           >
             About
           </Link>
@@ -135,7 +130,7 @@ const Navbar = () => {
             <Link
               href="/login"
               onClick={() => setMenuOpen(false)}
-              className="text-[#009688] font-medium"
+              className={linkClasses("/login")}
             >
               Log In
             </Link>
@@ -159,9 +154,9 @@ const Navbar = () => {
                 <Link
                   href="/allproducts"
                   onClick={() => setMenuOpen(false)}
-                  className="hover:text-[#009688]"
+                  className={linkClasses("/allproducts")}
                 >
-                  <RxDashboard className="h-5 w-5" />
+                  <RxDashboard className="h-6 w-6" />
                 </Link>
               )}
             </div>
