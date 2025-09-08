@@ -37,7 +37,7 @@ const ImgGenLayout = () => {
   };
 
   return (
-    <div className="w-8/12 mx-auto">
+    <div className="lg:w-8/12 mx-auto">
       <form onSubmit={handleSubmit}>
         {/* search */}
         <SearchBar />
@@ -56,7 +56,7 @@ const ImgGenLayout = () => {
         {imageUrls.length === 0 && !loading ? (
           <NoImgFound />
         ) : (
-          <ResultLayout imageUrls={imageUrls}  />
+          <ResultLayout imageUrls={imageUrls} />
         )}
       </div>
     </div>
