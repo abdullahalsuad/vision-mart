@@ -2,23 +2,33 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaBars,
+  FaBox,
+  FaEnvelope,
+  FaHome,
+  FaInfoCircle,
+  FaShoppingCart,
+  FaTimes,
+} from "react-icons/fa";
 import { RxDashboard } from "react-icons/rx";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Logout from "./auth/Logout";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
+import visionMartLogo from "@/app/VisionMartLogo.png";
+import { IoMdLogIn } from "react-icons/io";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Auth session
   const { data: session, status } = useSession();
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   // helper function for active link classes
   const linkClasses = (path: string) =>
-    `hover:text-[#009688] ${
+    `hover:text-[#009688] flex justify-center items-center gap-1.5 ${
       pathname === path ? "text-[#009688] font-semibold" : "text-gray-600"
     }`;
 
@@ -26,26 +36,49 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full z-20 bg-white shadow-sm">
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold">
-          <span className="text-[#009688]">Vision</span>
-          <span className="text-gray-700">Mart</span>
+        <Link
+          href="/"
+          className="text-2xl font-bold flex justify-center items-center gap-2"
+        >
+          <Image
+            src={visionMartLogo}
+            width={48}
+            height={48}
+            alt="Vision-Mart-Logo"
+          />
+          <div>
+            <span className="text-[#009688]">Vision</span>
+            <span className="text-gray-700">Mart</span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6 font-medium">
+        <nav className="hidden lg:flex gap-6 font-medium">
           <Link href="/" className={linkClasses("/")}>
+            <FaHome className="inline-block text-sm" />
             Home
           </Link>
+
           <Link href="/products" className={linkClasses("/products")}>
+            <FaBox className="inline-block text-sm" />
             Products
           </Link>
+
           {session ? (
             <Link href="/myorders" className={linkClasses("/myorders")}>
+              <FaShoppingCart className="inline-block text-sm" />
               My Orders
             </Link>
           ) : null}
+
           <Link href="/about" className={linkClasses("/about")}>
+            <FaInfoCircle className="inline-block text-sm" />
             About
+          </Link>
+
+          <Link href="/contact" className={linkClasses("/contact")}>
+            <FaEnvelope className="inline-block text-sm" />
+            Contact Us
           </Link>
         </nav>
 
@@ -55,15 +88,19 @@ const Navbar = () => {
           {status !== "authenticated" && (
             <Link
               href="/login"
-              className={linkClasses("/login") + " hidden md:block"}
+              className={
+                linkClasses("/login") +
+                " hidden lg:flex lg:items-center lg:justify-center"
+              }
             >
-              Log In
+              <IoMdLogIn size={20} />
+              <span>Log In</span>
             </Link>
           )}
 
           {/* Profile & Logout (Desktop) */}
           {status === "authenticated" && (
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3">
               <span className="text-gray-700 text-sm font-medium">
                 {session.user.name}
               </span>
@@ -78,12 +115,15 @@ const Navbar = () => {
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="text-black/80 hover:text-red-500"
               >
-                <Logout />
+                <Logout isDashboard={false} />
               </button>
 
               {/* Dashboard for admin */}
               {session.user.role === "admin" && (
-                <Link href="/allproducts" className={linkClasses("/allproducts")}>
+                <Link
+                  href="/allproducts"
+                  className={linkClasses("/allproducts")}
+                >
                   <RxDashboard className="h-6 w-6" />
                 </Link>
               )}
@@ -92,7 +132,7 @@ const Navbar = () => {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-gray-700 text-2xl"
+            className="lg:hidden text-gray-700 text-2xl"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <FaTimes /> : <FaBars />}
@@ -102,12 +142,17 @@ const Navbar = () => {
 
       {/* Mobile Nav */}
       <div
-        className={`md:hidden absolute top-full left-0 w-full bg-white shadow-md overflow-hidden transition-all duration-300 ${
+        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-md overflow-hidden transition-all duration-300 ${
           menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="flex flex-col items-center gap-5 py-6 font-medium">
-          <Link href="/" onClick={() => setMenuOpen(false)} className={linkClasses("/")}>
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className={linkClasses("/")}
+          >
+            <FaHome className="inline-block text-sm" />
             Home
           </Link>
           <Link
@@ -115,14 +160,37 @@ const Navbar = () => {
             onClick={() => setMenuOpen(false)}
             className={linkClasses("/products")}
           >
+            <FaBox className="inline-block text-sm" />
             Products
           </Link>
+
+          {session ? (
+            <Link
+              href="/myorders"
+              onClick={() => setMenuOpen(false)}
+              className={linkClasses("/products")}
+            >
+              <FaShoppingCart className="inline-block text-sm" />
+              My Orders
+            </Link>
+          ) : null}
+
           <Link
             href="/about"
             onClick={() => setMenuOpen(false)}
             className={linkClasses("/about")}
           >
+            <FaInfoCircle className="inline-block text-sm" />
             About
+          </Link>
+
+          <Link
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+            className={linkClasses("/contact")}
+          >
+            <FaEnvelope className="inline-block text-sm" />
+            Contact Us
           </Link>
 
           {/* Mobile Auth */}
@@ -130,9 +198,13 @@ const Navbar = () => {
             <Link
               href="/login"
               onClick={() => setMenuOpen(false)}
-              className={linkClasses("/login")}
+              className={
+                linkClasses("/login") +
+                " lg:hidden flex items-center justify-center"
+              }
             >
-              Log In
+              <IoMdLogIn size={20} />
+              <span>Log In</span>
             </Link>
           ) : (
             <div className="flex flex-col items-center gap-3">
@@ -146,7 +218,7 @@ const Navbar = () => {
                 }}
                 className="text-gray-700 hover:text-red-500"
               >
-                <Logout />
+                <Logout isDashboard={false} />
               </button>
 
               {/* Dashboard for admin (Mobile) */}

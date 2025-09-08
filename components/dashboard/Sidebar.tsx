@@ -10,6 +10,8 @@ import {
   FiX,
 } from "react-icons/fi";
 import { RiImageAiLine } from "react-icons/ri";
+import Logout from "../auth/Logout";
+import { signOut } from "next-auth/react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -38,13 +40,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 lg:sticky lg:top-0 w-64 bg-gradient-to-b from-teal-600 to-teal-700 text-white p-6 shadow-lg z-30 h-screen transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" :   "-translate-x-full lg:translate-x-0"}`}
+        className={`fixed top-0 lg:sticky lg:top-0 w-64 bg-gradient-to-b from-teal-600 to-teal-700 text-white p-6 shadow-lg z-30 h-screen transform transition-transform duration-300 ease-in-out flex flex-col ${
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
       >
-        <div className="flex items-center justify-between mb-8">
-         <Link href= '/' > <h1 className="text-2xl font-bold mt-2 flex items-center">
-            <FiHome className="w-5 h-5 mr-2" />
-            VisionMart
-          </h1></Link>
+        {/* Top: Logo + Close Button */}
+        <div className="flex items-center justify-between mb-6">
+          <Link href="/">
+            <h1 className="text-2xl font-bold flex items-center">
+              <FiHome className="w-5 h-5 mr-2" />
+              VisionMart
+            </h1>
+          </Link>
           <button
             className="lg:hidden p-1 rounded hover:bg-teal-500"
             onClick={onClose}
@@ -52,7 +59,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <FiX size={20} />
           </button>
         </div>
-        <nav className="flex flex-col gap-2">
+
+        {/* Menu: scrollable if needed */}
+        <nav className="flex-1 overflow-y-auto flex flex-col gap-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -76,6 +85,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             );
           })}
         </nav>
+
+        {/* Bottom: Logout Button */}
+        <div className="mt-4 w-full">
+          <button
+            onClick={() => {
+              signOut({ callbackUrl: "/" });
+              onClose();
+            }}
+            className="w-full"
+          >
+            <Logout isDashboard={true} />
+          </button>
+        </div>
       </aside>
     </>
   );

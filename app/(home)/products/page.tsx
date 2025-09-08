@@ -59,7 +59,21 @@ const ProductList: React.FC = () => {
     );
   }
   return (
-    <div className="rounded-2xl py-8 mt-20 mb-30">
+    <div className="rounded-2xl py-8 mt-10 mb-30">
+      {/* Title & Description */}
+      <div className="text-center mb-8 px-4 max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <span className="text-teal-600 text-4xl">Shop</span> Everything You
+          Love
+        </h1>
+        <p className="text-gray-600 text-lg">
+          Browse our extensive collection of products, from Electronics and
+          Fashion to Pet Supplies and Groceries. Find what you need with ease
+          using our search and filter tools.
+        </p>
+      </div>
+
+      {/* Search and filter */}
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full mb-6">
         {/* Search box */}
         <div className="relative w-full md:w-1/2">

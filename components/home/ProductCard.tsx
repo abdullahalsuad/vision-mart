@@ -21,7 +21,9 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
       </div>
       <div className="p-4">
         <p className="text-xs uppercase text-gray-500">{product?.category}</p>
-        <h3 className="text-lg font-semibold mb-6 truncate">{product?.productTitle}</h3>
+        <h3 className="text-lg font-semibold mb-6 truncate">
+          {product?.productTitle}
+        </h3>
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold text-teal-600">
             ${product?.price}{" "}
@@ -31,9 +33,9 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
           </p>
           <Link
             href={`products/${product?._id}`}
-            className="bg-[#009688] hover:bg-teal-600 text-white px-4 py-2 rounded-xl text-sm"
+            className="bg-[#009688] hover:bg-teal-600/90 text-white px-4 py-2 rounded-xl text-sm"
           >
-            View More
+            View Details
           </Link>
         </div>
       </div>

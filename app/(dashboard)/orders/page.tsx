@@ -1,11 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 interface Order {
   _id: string;
-  userID?: string;
-  productID?: string;
   name?: string;
   email?: string;
   productTitle?: string;
@@ -15,8 +14,6 @@ interface Order {
   category?: string;
   date?: string;
   status: "Pending" | "Shipped" | "Delivered" | "Cancelled";
-  number?: string;
-  address?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -37,21 +34,12 @@ const OrderPage = () => {
       setError("");
       const response = await fetch("/api/orders");
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`Failed to fetch orders: ${response.status}`);
-      }
 
       const data = await response.json();
-
-      if (Array.isArray(data)) {
-        setOrders(data);
-      } else {
-        console.error("Expected array but got:", data);
-        setOrders([]);
-        setError("Invalid data format received from server");
-      }
+      setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Error fetching orders:", err);
       setError(err instanceof Error ? err.message : "An error occurred");
       setOrders([]);
     } finally {
@@ -70,7 +58,6 @@ const OrderPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
-
       if (!response.ok) throw new Error("Failed to update order status");
 
       setOrders((prev) =>
@@ -139,150 +126,211 @@ const OrderPage = () => {
     );
   }
 
+  if (!orders || orders.length === 0) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+        <p className="text-gray-500 text-lg">No orders found</p>
+        <button
+          onClick={fetchOrders}
+          className="mt-4 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded cursor-pointer"
+        >
+          Refresh
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full max-w-full">
+    <div className="px-4">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Order Management</h1>
-        <p className="text-gray-600">View and manage all customer orders</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+          Order Management
+        </h1>
+        <p className="text-gray-600 text-sm md:text-base">
+          View and manage all customer orders
+        </p>
       </div>
 
-      {!orders || orders.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-          <p className="text-gray-500 text-lg">No orders found</p>
-          <button
-            onClick={fetchOrders}
-            className="mt-4 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded cursor-pointer"
-          >
-            Refresh
-          </button>
-        </div>
-      ) : (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          {/* Horizontal scroll container - only the table scrolls */}
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-            <table className="w-full" style={{ minWidth: "900px" }}>
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "100px" }}
-                  >
-                    Order Info
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "150px" }}
-                  >
-                    Customer
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "150px" }}
-                  >
-                    Product
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "80px" }}
-                  >
-                    Price
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "100px" }}
-                  >
-                    Status
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "120px" }}
-                  >
-                    Date
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ minWidth: "140px" }}
-                  >
-                    Update Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map((order) => (
-                  <tr key={order._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        #{order._id?.slice(-6).toUpperCase() || "N/A"}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="text-sm text-gray-900 max-w-[140px] truncate">
-                        {order.name || "Unknown Customer"}
-                      </div>
-                      <div className="text-xs text-gray-500 max-w-[140px] truncate">
-                        {order.email || "No email"}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="text-sm text-gray-900 max-w-[140px] truncate">
+      {/* Desktop table */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              {[
+                "Order",
+                "Customer",
+                "Product",
+                "Price",
+                "Status",
+                "Date",
+                "Update Status",
+              ].map((header) => (
+                <th
+                  key={header}
+                  className="px-3 py-2 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                >
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {orders.map((order) => (
+              <tr
+                key={order._id}
+                className="hover:bg-gray-50 transition-colors duration-200"
+              >
+                <td className="px-3 py-2 align-middle text-sm md:text-base font-medium text-gray-900 truncate max-w-[120px]">
+                  #{order._id?.slice(-6).toUpperCase() || "N/A"}
+                </td>
+                <td className="px-3 py-2 align-middle">
+                  <div className="truncate max-w-[200px]">
+                    <div className="text-sm md:text-base text-gray-900 font-semibold truncate">
+                      {order.name || "Unknown Customer"}
+                    </div>
+                    <div className="text-xs md:text-sm text-gray-500 truncate">
+                      {order.email || "No email"}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2 align-middle">
+                  <div className="flex items-center gap-3">
+                    {order.productImg && (
+                      <Image
+                        src={order.productImg}
+                        alt={order.productTitle || "Product Title"}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 rounded-md object-cover border border-gray-200"
+                      />
+                    )}
+                    <div className="truncate max-w-[200px]">
+                      <div className="text-sm md:text-base text-gray-900 font-medium truncate">
                         {order.productTitle || "Unknown Product"}
                       </div>
-                      <div className="text-xs text-gray-500 max-w-[140px] truncate">
+                      <div className="text-xs md:text-sm text-gray-500 truncate">
                         {order.category || "No category"}
                       </div>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        ${order.price?.toFixed(2) || "0.00"}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
-                          order.status
-                        )}`}
-                      >
-                        {order.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-xs text-gray-500">
-                      {formatDate(order.date || order.createdAt)}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <select
-                        value={order.status}
-                        onChange={(e) =>
-                          updateOrderStatus(
-                            order._id,
-                            e.target.value as Order["status"]
-                          )
-                        }
-                        disabled={updatingOrderId === order._id}
-                        className="block w-full py-2 px-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
-                      </select>
-                      {updatingOrderId === order._id && (
-                        <div className="mt-1 text-xs text-gray-500 text-center">
-                          Updating...
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2 align-middle text-sm md:text-base font-semibold text-gray-900">
+                  ${order.price?.toFixed(2) || "0.00"}
+                </td>
+                <td className="px-3 py-2 align-middle">
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs md:text-sm font-medium rounded-full ${getStatusColor(
+                      order.status
+                    )}`}
+                  >
+                    {order.status}
+                  </span>
+                </td>
+                <td className="px-3 py-2 align-middle text-xs md:text-sm text-gray-500 truncate max-w-[160px]">
+                  {formatDate(order.date || order.createdAt)}
+                </td>
+                <td className="px-3 py-2 align-middle min-w-[120px]">
+                  <select
+                    value={order.status}
+                    onChange={(e) =>
+                      updateOrderStatus(
+                        order._id,
+                        e.target.value as Order["status"]
+                      )
+                    }
+                    disabled={updatingOrderId === order._id}
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                  {updatingOrderId === order._id && (
+                    <div className="mt-1 text-xs text-gray-500 text-center">
+                      Updating...
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-          {/* Mobile scroll hint */}
-          <div className="block sm:hidden px-4 py-2 text-xs text-gray-500 text-center bg-gray-50 border-t">
-            ← Swipe left to see more columns →
+      {/* Mobile card layout with image */}
+      <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+        {orders.map((order) => (
+          <div
+            key={order._id}
+            className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm flex items-start gap-4"
+          >
+            {order.productImg && (
+              <div className="flex-shrink-0">
+                <Image
+                  src={order.productImg}
+                  alt={order.productTitle || "Product"}
+                  width={60}
+                  height={60}
+                  className="w-16 h-16 rounded-md object-cover border border-gray-200"
+                />
+              </div>
+            )}
+            <div className="flex-1">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-sm">{`#${order._id
+                  ?.slice(-6)
+                  .toUpperCase()}`}</span>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+                    order.status
+                  )}`}
+                >
+                  {order.status}
+                </span>
+              </div>
+              <div className="mt-1 text-sm font-medium text-gray-900">
+                {order.productTitle}
+              </div>
+              <div className="mt-0.5 text-xs text-gray-500">
+                {order.category}
+              </div>
+              <div className="mt-0.5 text-sm font-semibold">
+                ${order.price?.toFixed(2)}
+              </div>
+              <div className="mt-0.5 text-xs text-gray-500">
+                {order.name} - {order.email}
+              </div>
+              <div className="mt-0.5 text-xs text-gray-500">
+                {formatDate(order.date || order.createdAt)}
+              </div>
+              <div className="mt-2">
+                <select
+                  value={order.status}
+                  onChange={(e) =>
+                    updateOrderStatus(
+                      order._id,
+                      e.target.value as Order["status"]
+                    )
+                  }
+                  disabled={updatingOrderId === order._id}
+                  className="block w-full py-1 px-2 border border-gray-300 bg-white rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+                {updatingOrderId === order._id && (
+                  <div className="mt-1 text-xs text-gray-500 text-center">
+                    Updating...
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 };
