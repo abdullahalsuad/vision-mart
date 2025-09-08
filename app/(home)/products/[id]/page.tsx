@@ -6,17 +6,18 @@ import axios from "axios";
 import Image from "next/image";
 import { ProductType } from "@/types/productsTypes";
 import { useSession } from "next-auth/react";
-import { 
-  FaShoppingCart, 
-  FaShareAlt, 
+import {
+  FaShoppingCart,
+  FaShareAlt,
   FaArrowLeft,
-  FaCheckCircle
+  FaCheckCircle,
 } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
 import { AiOutlineRollback } from "react-icons/ai";
 import { BiShield } from "react-icons/bi";
 import { BsStarFill, BsArrowLeft } from "react-icons/bs";
 import { toast, Toaster } from "sonner";
+import ProductDetailsLoading from "@/components/loading/ProductDetailsLoading";
 
 const ProductDetails: React.FC = () => {
   const params = useParams();
@@ -40,9 +41,7 @@ const ProductDetails: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const res = await axios.get<ProductType>(
-          `/api/products/${productId}`
-        );
+        const res = await axios.get<ProductType>(`/api/products/${productId}`);
         setProduct(res.data);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -58,7 +57,6 @@ const ProductDetails: React.FC = () => {
     }
   }, [productId, status]);
 
-
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -68,7 +66,7 @@ const ProductDetails: React.FC = () => {
           url: window.location.href,
         });
       } catch (error) {
-        console.log('Sharing cancelled', error);
+        console.log("Sharing cancelled", error);
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
@@ -91,19 +89,9 @@ const ProductDetails: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="w-10/12 mx-auto py-8 animate-pulse">
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="w-full md:w-1/2">
-            <div className="bg-gray-300 h-96 rounded-2xl"></div>
-          </div>
-          <div className="w-full md:w-1/2 space-y-4">
-            <div className="h-6 bg-gray-300 rounded w-1/4"></div>
-            <div className="h-10 bg-gray-300 rounded w-3/4"></div>
-            <div className="h-20 bg-gray-300 rounded"></div>
-            <div className="h-12 bg-gray-300 rounded w-1/2"></div>
-          </div>
-        </div>
-      </div>
+      <>
+        <ProductDetailsLoading />
+      </>
     );
   }
 
@@ -112,7 +100,7 @@ const ProductDetails: React.FC = () => {
       <div className="w-10/12 mx-auto py-8">
         <div className="bg-red-50 p-6 rounded-xl text-center">
           <p className="text-red-600 text-lg font-medium mb-4">{error}</p>
-          <button 
+          <button
             onClick={() => router.back()}
             className="flex items-center justify-center gap-2 text-teal-600 hover:text-teal-700 mx-auto"
           >
@@ -127,9 +115,11 @@ const ProductDetails: React.FC = () => {
     return (
       <div className="w-10/12 mx-auto py-8">
         <div className="bg-yellow-50 p-6 rounded-xl text-center">
-          <p className="text-yellow-700 text-lg font-medium mb-4">Product not found!</p>
-          <button 
-            onClick={() => router.push('/')}
+          <p className="text-yellow-700 text-lg font-medium mb-4">
+            Product not found!
+          </p>
+          <button
+            onClick={() => router.push("/")}
             className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-md"
           >
             Continue Shopping
@@ -140,7 +130,7 @@ const ProductDetails: React.FC = () => {
   }
 
   if (!session) return null;
-  
+
   const user = {
     id: session.user?.id || "",
     name: session.user?.name || "",
@@ -151,7 +141,7 @@ const ProductDetails: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb and Back Button */}
       <div className="flex items-center gap-4 mb-8">
-        <button 
+        <button
           onClick={() => router.back()}
           className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
         >
@@ -162,7 +152,9 @@ const ProductDetails: React.FC = () => {
         <span className="text-gray-400">/</span>
         <span className="text-gray-600">{product.category}</span>
         <span className="text-gray-400">/</span>
-        <span className="text-gray-900 font-medium truncate">{product.productTitle}</span>
+        <span className="text-gray-900 font-medium truncate">
+          {product.productTitle}
+        </span>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -178,7 +170,7 @@ const ProductDetails: React.FC = () => {
                 priority
               />
             </div>
-            
+
             {/* Product badges */}
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
@@ -201,7 +193,7 @@ const ProductDetails: React.FC = () => {
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 {product.productTitle}
               </h1>
-              
+
               {/* Ratings */}
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex text-yellow-400">
@@ -211,7 +203,7 @@ const ProductDetails: React.FC = () => {
                 </div>
                 <span className="text-gray-500 text-sm">(42 reviews)</span>
               </div>
-              
+
               <p className="text-gray-700 truncate mb-6">
                 {product.description}
               </p>
@@ -254,19 +246,17 @@ const ProductDetails: React.FC = () => {
               >
                 <FaShoppingCart /> Buy Now
               </button>
-              
-          
             </div>
-            
+
             {/* Secondary Actions */}
-            <div className="flex items-center gap-4 mb-8">  
-              <button 
+            <div className="flex items-center gap-4 mb-8">
+              <button
                 onClick={handleShare}
                 className="p-3 bg-white rounded-xl shadow-sm hover:shadow-md text-gray-600 transition-all cursor-pointer"
               >
                 <FaShareAlt />
               </button>
-              
+
               <span className="text-sm text-gray-500">Share this product</span>
             </div>
 
@@ -277,27 +267,33 @@ const ProductDetails: React.FC = () => {
                   <TbTruckDelivery className="text-teal-600 w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Free Shipping</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    Free Shipping
+                  </p>
                   <p className="text-xs text-gray-500">Delivery in 2-3 days</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                 <div className="p-2 bg-teal-50 rounded-lg">
                   <BiShield className="text-teal-600 w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">2 Year Warranty</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    2 Year Warranty
+                  </p>
                   <p className="text-xs text-gray-500">Full coverage</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                 <div className="p-2 bg-teal-50 rounded-lg">
                   <AiOutlineRollback className="text-teal-600 w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Easy Returns</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    Easy Returns
+                  </p>
                   <p className="text-xs text-gray-500">30-day policy</p>
                 </div>
               </div>
@@ -308,7 +304,9 @@ const ProductDetails: React.FC = () => {
 
       {/* Product Description Section */}
       <div className="border-t border-gray-200 pt-8 mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Description</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          Product Description
+        </h2>
         <div className="prose max-w-none">
           <p className="text-gray-700 leading-7 whitespace-pre-line">
             {product.description}

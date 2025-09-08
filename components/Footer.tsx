@@ -1,10 +1,13 @@
-"use client";
 import Link from "next/link";
+import { BsLinkedin, BsTwitter } from "react-icons/bs";
+import { CiInstagram } from "react-icons/ci";
+import { FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-200">
-      <div className="w-10/12 mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-50 border-t border-gray-200">
+      {/* Main Section */}
+      <div className="w-11/12 max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* Brand Info */}
         <div>
           <Link href="/" className="text-2xl font-bold">
@@ -14,6 +17,34 @@ const Footer = () => {
           <p className="mt-3 text-gray-600 text-sm leading-relaxed">
             Your trusted partner for premium electronics and lifestyle products.
           </p>
+
+          {/* Social Icons */}
+          <div className="flex items-center space-x-4 mt-4">
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-teal-600 transition"
+            >
+              <FaFacebook size={20} />
+            </Link>
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-teal-600 transition"
+            >
+              <BsTwitter size={20} />
+            </Link>
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-teal-600 transition"
+            >
+              <CiInstagram size={20} />
+            </Link>
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-teal-600 transition"
+            >
+              <BsLinkedin size={20} />
+            </Link>
+          </div>
         </div>
 
         {/* Quick Links */}
@@ -23,16 +54,24 @@ const Footer = () => {
           </h3>
           <ul className="space-y-2 text-gray-600 text-sm">
             <li>
-              <Link href="/">About Us</Link>
+              <Link href="/" className="hover:text-teal-600 transition">
+                About Us
+              </Link>
             </li>
             <li>
-              <Link href="/">Contact</Link>
+              <Link href="/" className="hover:text-teal-600 transition">
+                Contact
+              </Link>
             </li>
             <li>
-              <Link href="/">Shipping</Link>
+              <Link href="/" className="hover:text-teal-600 transition">
+                Shipping
+              </Link>
             </li>
             <li>
-              <Link href="/">Returns</Link>
+              <Link href="/" className="hover:text-teal-600 transition">
+                Returns
+              </Link>
             </li>
           </ul>
         </div>
@@ -43,24 +82,20 @@ const Footer = () => {
             Categories
           </h3>
           <ul className="space-y-2 text-gray-600 text-sm">
-            <li>
-              <Link href="/">Electronics</Link>
-            </li>
-            <li>
-              <Link href="/">Fashion</Link>
-            </li>
-            <li>
-              <Link href="/">Pet Supplies</Link>
-            </li>
-            <li>
-              <Link href="/">Beauty</Link>
-            </li>
-            <li>
-              <Link href="/">Sports</Link>
-            </li>
-            <li>
-              <Link href="/">Groceries</Link>
-            </li>
+            {[
+              "Electronics",
+              "Fashion",
+              "Pet Supplies",
+              "Beauty",
+              "Sports",
+              "Groceries",
+            ].map((cat) => (
+              <li key={cat}>
+                <Link href="/" className="hover:text-teal-600 transition">
+                  {cat}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -68,25 +103,25 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-3">Support</h3>
           <ul className="space-y-2 text-gray-600 text-sm">
-            <li>
-              <Link href="/">Help Center</Link>
-            </li>
-            <li>
-              <Link href="/">Track Order</Link>
-            </li>
-            <li>
-              <Link href="/">Privacy Policy</Link>
-            </li>
-            <li>
-              <Link href="/">Terms of Service</Link>
-            </li>
+            {[
+              "Help Center",
+              "Track Order",
+              "Privacy Policy",
+              "Terms of Service",
+            ].map((item) => (
+              <li key={item}>
+                <Link href="/" className="hover:text-teal-600 transition">
+                  {item}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-200 text-center py-4 text-gray-500 text-sm">
-        © 2024 VisionMart. All rights reserved.
+      <div className="border-t border-gray-200 text-center py-5 text-gray-500 text-sm">
+        © {new Date().getFullYear()} VisionMart. All rights reserved.
       </div>
     </footer>
   );
