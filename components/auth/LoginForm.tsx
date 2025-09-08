@@ -9,20 +9,18 @@ import { toast } from "sonner";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
   // handle login
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setIsLoading(true);
     try {
       const formData = new FormData(event.currentTarget);
 
       const response = await login(formData);
-
-      // for testing
-      console.log(response);
 
       if (!!response.error) {
         setError(response.error);
@@ -36,6 +34,8 @@ const LoginForm = () => {
         err instanceof Error ? err.message : "Something went wrong";
       setError(errMessage);
       toast.error("Email or password mismatch");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,9 +76,10 @@ const LoginForm = () => {
       {/* Button */}
       <button
         type="submit"
-        className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white shadow-lg hover:bg-teal-700 transition cursor-pointer"
+        disabled={isLoading}
+        className="w-full py-2 px-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Login
+        {isLoading ? "Logging in..." : "Login"}
       </button>
     </form>
   );

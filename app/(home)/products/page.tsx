@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/home/ProductCard";
+import ProductsLoading from "@/components/loading/ProductsLoading";
 import { ProductType } from "@/types/productsTypes";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -18,21 +19,23 @@ const ProductList: React.FC = () => {
         setLoading(true);
         const res = await axios.get("/api/products");
         // Map API data to match Product interface
-        const mappedProducts = res.data.map((p: {
-          _id: string;
-          productTitle?: string;
-          description?: string;
-          price?: number;
-          category?: string;
-          productImg?: string;
-        }) => ({
-          _id: p._id,
-          productTitle: p.productTitle || "",
-          description: p.description || "",
-          price: p.price || 0,
-          category: p.category || "",
-          productImg: p.productImg || "https://via.placeholder.com/150",
-        }));
+        const mappedProducts = res.data.map(
+          (p: {
+            _id: string;
+            productTitle?: string;
+            description?: string;
+            price?: number;
+            category?: string;
+            productImg?: string;
+          }) => ({
+            _id: p._id,
+            productTitle: p.productTitle || "",
+            description: p.description || "",
+            price: p.price || 0,
+            category: p.category || "",
+            productImg: p.productImg || "https://via.placeholder.com/150",
+          })
+        );
         setProducts(mappedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -56,7 +59,7 @@ const ProductList: React.FC = () => {
     );
   }
   return (
-    <div className="rounded-2xl py-8 mt-20">
+    <div className="rounded-2xl py-8 mt-20 mb-30">
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full mb-6">
         {/* Search box */}
         <div className="relative w-full md:w-1/2">
@@ -90,9 +93,9 @@ const ProductList: React.FC = () => {
       </div>
 
       {loading ? (
-        <p className="text-center text-gray-500 py-10 text-lg font-medium">
-          Loading products...
-        </p>
+        <>
+          <ProductsLoading />
+        </>
       ) : filteredProducts.length === 0 ? (
         <p className="text-center text-gray-500 py-10 text-lg font-medium">
           Product Not Found

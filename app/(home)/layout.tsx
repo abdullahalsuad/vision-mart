@@ -31,14 +31,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <SessionProvider>
-          <header className="sticky top-0 border-b mb-2 w-11/12 mx-auto rounded-2xl border-[#009688] bg-white/70  z-20">
+          {/* Header */}
+          <header className="sticky top-0 border-b mb-2 w-11/12 mx-auto rounded-2xl border-[#009688] bg-white/70 z-20">
             <Navbar />
           </header>
-          <main className="w-10/12 mx-auto">{children}</main>
-          <footer className="border-t-2 border-[#009688]  w-full">
+
+          {/* Main (flex-grow pushes footer down if not enough content) */}
+          <main className="w-10/12 mx-auto flex-grow">{children}</main>
+
+          {/* Footer always at bottom */}
+          <footer className="border-t-2 border-[#009688] w-full">
             <Footer />
           </footer>
         </SessionProvider>

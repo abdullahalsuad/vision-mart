@@ -8,12 +8,14 @@ import { toast } from "sonner";
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
   // handle register
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       // collecting form data
@@ -37,8 +39,6 @@ const RegistrationForm = () => {
         }),
       });
 
-      // for testing
-      // console.log(res);
       if (res.status === 201) {
         toast.success("Registration successful");
         router.push("/login");
@@ -49,6 +49,8 @@ const RegistrationForm = () => {
 
       setError(message);
       toast.error(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -114,9 +116,10 @@ const RegistrationForm = () => {
       {/* Button */}
       <button
         type="submit"
-        className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white shadow-lg hover:bg-teal-700 transition cursor-pointer"
+        disabled={isLoading}
+        className="w-full py-2 px-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Create account
+        {isLoading ? "submitting...." : "Register"}
       </button>
     </form>
   );
