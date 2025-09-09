@@ -276,7 +276,7 @@ const ReviewSlider = () => {
 
                   {/* Review Content */}
                   <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
-                    &quot{review.comment}&quot
+                    {review.comment}
                   </p>
 
                   {/* Product Info */}

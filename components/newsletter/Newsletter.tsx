@@ -26,68 +26,72 @@ const Newsletter: React.FC<NewsletterProps> = ({ className = "" }) => {
     return emailRegex.test(email);
   };
 
-  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubscribe = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
-    
+
     const { email } = formState;
-    
+
     if (!email.trim()) {
       toast.error("Please enter your email address");
       return;
     }
-    
+
     if (!validateEmail(email)) {
       toast.error("Please enter a valid email address");
       return;
     }
 
-    setFormState(prev => ({ ...prev, isLoading: true }));
+    setFormState((prev) => ({ ...prev, isLoading: true }));
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       toast.success("Successfully subscribed to our newsletter!");
       setFormState({ email: "", isLoading: false });
     } catch (error) {
+      console.log(error);
       toast.error("Failed to subscribe. Please try again.");
-      setFormState(prev => ({ ...prev, isLoading: false }));
+      setFormState((prev) => ({ ...prev, isLoading: false }));
     }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setFormState(prev => ({ ...prev, email: e.target.value }));
+    setFormState((prev) => ({ ...prev, email: e.target.value }));
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.4 } 
-    }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 },
+    },
   };
 
   const buttonVariants = {
     idle: { scale: 1 },
     hover: { scale: 1.05 },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
 
   const inputVariants = {
     idle: { scale: 1 },
-    focus: { scale: 1.02 }
+    focus: { scale: 1.02 },
   };
 
   return (
-    <motion.div 
-      variants={itemVariants} 
+    <motion.div
+      variants={itemVariants}
       className={`lg:col-span-2 ${className}`}
     >
       <p className="text-gray-600 text-sm mb-4">
-        Subscribe to our newsletter for the latest updates, deals, and exclusive offers.
+        Subscribe to our newsletter for the latest updates, deals, and exclusive
+        offers.
       </p>
-      
+
       <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
         <motion.input
           type="email"
