@@ -24,7 +24,7 @@ const ReviewSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Static review data
+  // Static reviews data
   const reviews: Review[] = [
     {
       id: 1,
