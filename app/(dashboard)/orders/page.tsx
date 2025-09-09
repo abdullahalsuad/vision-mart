@@ -7,6 +7,8 @@ interface Order {
   _id: string;
   name?: string;
   email?: string;
+  number?: string;
+  address?: string;
   productTitle?: string;
   description?: string;
   price?: number;
@@ -23,6 +25,9 @@ const OrderPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
     fetchOrders();
@@ -47,6 +52,23 @@ const OrderPage = () => {
     }
   };
 
+  const fetchOrderDetails = async (orderId: string) => {
+    try {
+      setModalLoading(true);
+      const response = await fetch(`/api/orders/${orderId}`);
+      
+      if (!response.ok) throw new Error("Failed to fetch order details");
+      
+      const orderData = await response.json();
+      setSelectedOrder(orderData);
+      setIsModalOpen(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch order details");
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
   const updateOrderStatus = async (
     orderId: string,
     newStatus: Order["status"]
@@ -65,6 +87,11 @@ const OrderPage = () => {
           order._id === orderId ? { ...order, status: newStatus } : order
         )
       );
+      
+      // Also update the selected order if it's the one being updated
+      if (selectedOrder && selectedOrder._id === orderId) {
+        setSelectedOrder({ ...selectedOrder, status: newStatus });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update order");
     } finally {
@@ -151,6 +178,95 @@ const OrderPage = () => {
         </p>
       </div>
 
+      {/* Order Details Modal with Transparent Background */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Order Details</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700 cursor-pointer"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {modalLoading ? (
+              <div className="flex justify-center items-center h-40">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+                <span className="ml-3 text-gray-600">Loading details...</span>
+              </div>
+            ) : selectedOrder ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  {selectedOrder.productImg && (
+                    <Image
+                      src={selectedOrder.productImg}
+                      alt={selectedOrder.productTitle || "Product"}
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 rounded-md object-cover border border-gray-200"
+                    />
+                  )}
+                  <div>
+                    <h3 className="text-lg font-semibold">{selectedOrder.productTitle}</h3>
+                    <p className="text-gray-600">${selectedOrder.price?.toFixed(2)}</p>
+                    <p className="text-sm text-gray-500">{selectedOrder.category}</p>
+                  </div>
+                </div>
+                
+                <div className="border-t border-gray-200 pt-4">
+                  <h4 className="font-medium text-gray-700 mb-2">Customer Information</h4>
+                  <p className="text-sm"><span className="font-medium">Name:</span> {selectedOrder.name}</p>
+                  <p className="text-sm"><span className="font-medium">Email:</span> {selectedOrder.email}</p>
+                  <p className="text-sm"><span className="font-medium">Phone:</span> {selectedOrder.number || "N/A"}</p>
+                  <p className="text-sm"><span className="font-medium">Address:</span> {selectedOrder.address || "N/A"}</p>
+                </div>
+                
+                <div className="border-t border-gray-200 pt-4">
+                  <h4 className="font-medium text-gray-700 mb-2">Order Status</h4>
+                  <div className="flex items-center gap-3">
+                    <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(selectedOrder.status)}`}>
+                      {selectedOrder.status}
+                    </span>
+                    <select
+                      value={selectedOrder.status}
+                      onChange={(e) =>
+                        updateOrderStatus(
+                          selectedOrder._id,
+                          e.target.value as Order["status"]
+                        )
+                      }
+                      disabled={updatingOrderId === selectedOrder._id}
+                      className="py-1 px-2 border border-gray-300 bg-white rounded-md shadow-sm text-sm disabled:opacity-50 cursor-pointer"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+                    {updatingOrderId === selectedOrder._id && (
+                      <span className="text-xs text-gray-500">Updating...</span>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="border-t border-gray-200 pt-4">
+                  <p className="text-sm text-gray-500">
+                    <span className="font-medium">Order Date:</span> {formatDate(selectedOrder.date || selectedOrder.createdAt)}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-500">No order details available.</p>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Desktop table */}
       <div className="hidden lg:block overflow-x-auto">
         <table className="min-w-full border-collapse border border-gray-200">
@@ -163,6 +279,7 @@ const OrderPage = () => {
                 "Price",
                 "Status",
                 "Date",
+                "Actions",
                 "Update Status",
               ].map((header) => (
                 <th
@@ -228,6 +345,14 @@ const OrderPage = () => {
                 </td>
                 <td className="px-3 py-2 align-middle text-xs md:text-sm text-gray-500 truncate max-w-[160px]">
                   {formatDate(order.date || order.createdAt)}
+                </td>
+                <td className="px-3 py-2 align-middle">
+                  <button
+                    onClick={() => fetchOrderDetails(order._id)}
+                    className="bg-teal-100 hover:bg-teal-200 text-teal-800 text-xs md:text-sm px-3 py-1 rounded-md transition-colors cursor-pointer"
+                  >
+                    View Details
+                  </button>
                 </td>
                 <td className="px-3 py-2 align-middle min-w-[120px]">
                   <select
@@ -304,7 +429,13 @@ const OrderPage = () => {
               <div className="mt-0.5 text-xs text-gray-500">
                 {formatDate(order.date || order.createdAt)}
               </div>
-              <div className="mt-2">
+              <div className="mt-3 flex gap-2">
+                <button
+                  onClick={() => fetchOrderDetails(order._id)}
+                  className="bg-teal-100 hover:bg-teal-200 text-teal-800 text-xs px-3 py-1 rounded-md transition-colors flex-1 cursor-pointer"
+                >
+                  View Details
+                </button>
                 <select
                   value={order.status}
                   onChange={(e) =>
@@ -314,19 +445,19 @@ const OrderPage = () => {
                     )
                   }
                   disabled={updatingOrderId === order._id}
-                  className="block w-full py-1 px-2 border border-gray-300 bg-white rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="block py-1 px-2 border border-gray-300 bg-white rounded-md text-xs disabled:opacity-50 disabled:cursor-not-allowed flex-1 cursor-pointer"
                 >
                   <option value="Pending">Pending</option>
                   <option value="Shipped">Shipped</option>
                   <option value="Delivered">Delivered</option>
                   <option value="Cancelled">Cancelled</option>
                 </select>
-                {updatingOrderId === order._id && (
-                  <div className="mt-1 text-xs text-gray-500 text-center">
-                    Updating...
-                  </div>
-                )}
               </div>
+              {updatingOrderId === order._id && (
+                <div className="mt-1 text-xs text-gray-500 text-center">
+                  Updating...
+                </div>
+              )}
             </div>
           </div>
         ))}
