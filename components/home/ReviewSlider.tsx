@@ -24,7 +24,7 @@ const ReviewSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Static review data
+  // Static reviews data
   const reviews: Review[] = [
     {
       id: 1,
@@ -276,7 +276,7 @@ const ReviewSlider = () => {
 
                   {/* Review Content */}
                   <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
-                    &quot{review.comment}&quot
+                    {review.comment}
                   </p>
 
                   {/* Product Info */}
